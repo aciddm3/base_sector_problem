@@ -1,4 +1,11 @@
+use std::fs::File;
+use std::io::Read;
+use serde_json;
+use serde::Deserialize;
+
 type SectorID = u8;
+
+#[derive(Deserialize, Debug)]
 struct Sector {
     id : SectorID,
     relations : Vec<SectorID>,
@@ -51,32 +58,10 @@ fn generate_bool_combinations(n: usize) -> Vec<Vec<bool>> {
 }
 
 fn main() {
-    let mut a = vec![
-        Sector {
-            id : 0,
-            relations : vec![1,2],
-            is_based : false,
-            cost : 40.0,
-        },
-        Sector {
-            id : 1,
-            relations : vec![0,3],
-            is_based : false,
-            cost : 80.0,
-        },
-        Sector {
-            id : 2,
-            relations : vec![0,3],
-            is_based : false,
-            cost : 20.0,
-        },
-        Sector {
-            id : 3,
-            relations : vec![1,2],
-            is_based : false,
-            cost : 5.0,
-        },
-    ];
+    let mut file = File::open("graph.json").expect("Не удалось открыть файл с графом");
+    let mut data = String::new();
+    file.read_to_string(&mut data).expect("пЕчЕнььКО))!");
+    let mut a: Vec<Sector> = serde_json::from_str(&data).expect("Не удалось распарсить файл"); 
     
     let task_order = a.len().clone();
 
@@ -99,7 +84,7 @@ fn main() {
                 }
             }
         }
-        println!("Конфигурация: {:?}", i.iter().map(|&s| {if s {1} else {0}}));
+        println!("Конфигурация: {:?}", i.iter().map(|&s| {if s {1} else {0}}).collect::<Vec<_>>());
         if benefited.len() != task_order {
             println!("Эта конфигурация контролирует не все сектора!");
         } else {
@@ -112,7 +97,7 @@ fn main() {
         }
         println!();
     }
-    println!("Лучшая конфигурация {:?}", minimum_conf.iter().map(|&s| {if s {1} else {0}}));
+    println!("Лучшая конфигурация {:?}", minimum_conf.iter().map(|&s| {if s {1} else {0}}).collect::<Vec<_>>());
     println!("Потребляет {minimum_cost}");
 
 }

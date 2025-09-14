@@ -1,0 +1,26 @@
+[
+	{
+		"id" : 0,
+		"relations" : [1,2],
+		"is_based" : false,
+		"cost" : 20.0
+	},
+	{
+		"id" : 1,
+		"relations" : [0,3],
+		"is_based" : false,
+		"cost" : 5.0
+	},
+	{
+		"id" : 2,
+		"relations" : [0,3],
+		"is_based" : false,
+		"cost" : 80.0
+	},
+	{
+		"id" : 3,
+		"relations" : [1,2],
+		"is_based" : false,
+		"cost" : 40.0
+	}
+]

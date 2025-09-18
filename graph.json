@@ -1,26 +1,50 @@
 [
-	{
-		"id" : 0,
-		"relations" : [1,2],
-		"is_based" : false,
-		"cost" : 20.0
-	},
-	{
-		"id" : 1,
-		"relations" : [0,3],
-		"is_based" : false,
-		"cost" : 5.0
-	},
-	{
-		"id" : 2,
-		"relations" : [0,3],
-		"is_based" : false,
-		"cost" : 80.0
-	},
-	{
-		"id" : 3,
-		"relations" : [1,2],
-		"is_based" : false,
-		"cost" : 40.0
-	}
+    {
+        "id": 0,
+        "relations": [1, 3, 4],
+        "is_based": false,
+        "cost": 10.5
+    },
+    {
+        "id": 1,
+        "relations": [0, 2, 5],
+        "is_based": false,
+        "cost": 8.0
+    },
+    {
+        "id": 2,
+        "relations": [1, 3, 6],
+        "is_based": false,
+        "cost": 15.2
+    },
+    {
+        "id": 3,
+        "relations": [0, 2, 7],
+        "is_based": false,
+        "cost": 20.3
+    },
+    {
+        "id": 4,
+        "relations": [0, 5, 7],
+        "is_based": false,
+        "cost": 5.0
+    },
+    {
+        "id": 5,
+        "relations": [1, 4, 6],
+        "is_based": false,
+        "cost": 17.8
+    },
+    {
+        "id": 6,
+        "relations": [2, 5, 7],
+        "is_based": false,
+        "cost": 2.5
+    },
+    {
+        "id": 7,
+        "relations": [3, 4, 6],
+        "is_based": false,
+        "cost": 29.1
+    }
 ]

@@ -4,8 +4,12 @@ use serde_json;
 
 mod sector;
 mod utils;
+mod dot_generator;
+
 use sector::{Sector, SectorID};
 use utils::*;
+
+use crate::dot_generator::generate;
 fn main() {
     let mut file = File::open("graph.json").expect("Не удалось открыть файл с графом");
     let mut data = String::new();
@@ -16,9 +20,9 @@ fn main() {
 
     let mut minimum_cost: f64 = a.iter().map(|f| f.cost).sum();
     
-    let mut benefited : Vec<SectorID> = vec![0; 0];
-    
     let mut minimum_conf : Vec<bool> = vec![true; a.len()];
+    
+    let mut benefited : Vec<SectorID> = vec![0; 0];
 
     for i in generate_bool_combinations(task_order) {
         for j in 0..task_order {
@@ -33,20 +37,26 @@ fn main() {
                 }
             }
         }
-        println!("Конфигурация: {:?}", i.iter().map(|&s| {if s {1} else {0}}).collect::<Vec<_>>());
+        //println!("Конфигурация: {:?}", i.iter().map(|&s| {if s {1} else {0}}).collect::<Vec<_>>());
         if benefited.len() != task_order {
-            println!("Эта конфигурация контролирует не все сектора!");
+            //println!("Эта конфигурация контролирует не все сектора!");
         } else {
             let cost = total_cost(&a);
-            println!("Эта конфигурация подходит, значение целевой функции: {cost}");
+            //println!("Эта конфигурация подходит, значение целевой функции: {cost}");
             if minimum_cost > cost {
                 minimum_cost = cost;
                 minimum_conf = i.clone();
             }
         }
-        println!();
+        //println!();
     }
-    println!("Лучшая конфигурация {:?}", minimum_conf.iter().map(|&s| {if s {1} else {0}}).collect::<Vec<_>>());
-    println!("Потребляет {minimum_cost}");
+    println!("//Лучшая конфигурация {:?}", minimum_conf.iter().map(|&s| {if s {1} else {0}}).collect::<Vec<_>>());
+    println!("//Потребляет {minimum_cost}");
+    println!("//dot формат для этой конфигурации:\n");
+
+    for (index, val) in minimum_conf.into_iter().enumerate() {
+        a[index].is_based = val
+    }
+    println!("{}", generate(&a));
 
 }

@@ -1,6 +1,5 @@
-use std::fs::File;
+use std::{fs::File, time::Instant};
 use std::io::Read;
-use serde_json;
 
 mod sector;
 mod utils;
@@ -11,18 +10,19 @@ use utils::*;
 
 use crate::dot_generator::generate;
 fn main() {
+    let start_time = Instant::now();
     let mut file = File::open("graph.json").expect("Не удалось открыть файл с графом");
     let mut data = String::new();
     file.read_to_string(&mut data).expect("пЕчЕнььКО))!");
     let mut a: Vec<Sector> = serde_json::from_str(&data).expect("Не удалось распарсить файл"); 
     
-    let task_order = a.len().clone();
+    let task_order = a.len();
 
     let mut minimum_cost: f64 = a.iter().map(|f| f.cost).sum();
     
     let mut minimum_conf : Vec<bool> = vec![true; a.len()];
     
-    let mut benefited : Vec<SectorID> = vec![0; 0];
+    let mut benefited : Vec<SectorID>;
 
     for i in generate_bool_combinations(task_order) {
         for j in 0..task_order {
@@ -57,6 +57,10 @@ fn main() {
     for (index, val) in minimum_conf.into_iter().enumerate() {
         a[index].is_based = val
     }
+    let before_dot = start_time.elapsed();
     println!("{}", generate(&a));
+
+    println!("//Время работы без генерфции DOT кода: {} микросекунд", before_dot.as_micros());
+    println!("//Общее время работы: {} микросекунд", start_time.elapsed().as_micros());
 
 }

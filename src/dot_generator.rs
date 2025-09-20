@@ -1,12 +1,12 @@
 use crate::sector::*;
 
-pub fn generate (src : &Vec<Sector>) -> String {
+pub fn generate (src : &[Sector]) -> String {
 	let mut result = String::from("strict graph {\n");
 
 	for index in src.iter() {
 		result.push_str(&generate_sector(index));
 	}
-	result.push_str("}");
+	result.push('}');
 	result
 }
 

@@ -1,6 +1,6 @@
-use crate::sector;
+use crate::sector::Sector;
 
-pub fn total_cost (g : & Vec<sector::Sector> ) -> f64 {
+pub fn total_cost (g : &[Sector] ) -> f64 {
     let mut s = 0.0;
     for i in g {
         if i.is_based {
